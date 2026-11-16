@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from modules.audio.router import router as audio_router
+from modules.vocoder.router import router as vocoder_router
 
 app = FastAPI(title="Audio Editor API", version="1.0")
 
@@ -20,6 +21,7 @@ app.add_middleware(
 
 # Routers de los módulos
 app.include_router(audio_router, prefix="/api/audio", tags=["Audio"])
+app.include_router(vocoder_router, prefix="/api/vocoder", tags=["Vocoder"])
 
 
 @app.get("/")

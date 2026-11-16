@@ -49,3 +49,27 @@ export const audioService = {
     await api.delete(`/api/audio/${fileId}`);
   },
 };
+
+/*  Servicio de Phase Vocoder (time-stretch / pitch-shift)                    */
+
+export const vocoderService = {
+  /** Cambia la velocidad sin alterar el tono. `rate`: 0.5 – 2.0. Devuelve un WAV. */
+  async timeStretch(fileId: string, rate: number, signal?: AbortSignal): Promise<Blob> {
+    const { data } = await api.post<Blob>(
+      "/api/vocoder/time-stretch",
+      { file_id: fileId, rate },
+      { responseType: "blob", signal },
+    );
+    return data;
+  },
+
+  /** Cambia el tono sin alterar la duración. `semitones`: -12 – +12. Devuelve un WAV. */
+  async pitchShift(fileId: string, semitones: number, signal?: AbortSignal): Promise<Blob> {
+    const { data } = await api.post<Blob>(
+      "/api/vocoder/pitch-shift",
+      { file_id: fileId, semitones },
+      { responseType: "blob", signal },
+    );
+    return data;
+  },
+};
